@@ -1,8 +1,8 @@
-const chai = require('chai');
-const request = require('superagent');
-const { username, token } = require('../github-credentials.json');
+require('./chai-config.js');
 
-const should = chai.should();
+const request = require('superagent');
+const { username, token } = require('../src/github-credentials.json');
+
 
 describe('the GitHub API', () => {
   it('allows me to get a list of pull requests', (done) => {
@@ -10,8 +10,8 @@ describe('the GitHub API', () => {
     const repo = 'spring-kafka';
     const url = `https://api.github.com/repos/${owner}/${repo}/pulls`;
     request.get(url).auth(username, token).set('Accept', 'application/vnd.github.v3+json').end((err, res) => {
-      should.not.exist(err);
-      should.exist(res);
+      err.should.be.undefined();
+      res.should.not.be.undefined();
       done();
     });
   });

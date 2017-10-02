@@ -1,8 +1,7 @@
-const chai = require('chai');
-const credentials = require('../github-credentials.json');
-const Agent = require('../src/agent.js');
+const should = require('./chai-config.js');
+const credentials = require('../src/github-credentials.json');
 
-const should = chai.should();
+const Agent = require('../src/agent.js');
 
 describe('agent', () => {
   it('should fetch pull requests', (done) => {
