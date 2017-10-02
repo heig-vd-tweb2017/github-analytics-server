@@ -19,6 +19,9 @@
     "url": "https://github.com/heig-vd-tweb2017/server/issues"
   },
   "homepage": "https://github.com/heig-vd-tweb2017/server#readme",
+  "dependencies": {
+    "superagent": "^3.6.1",
+  },
   "devDependencies": {
     "chai": "^4.1.2",
     "dirty-chai": "^2.0.1",
@@ -26,6 +29,5 @@
     "eslint-config-airbnb-base": "^12.0.1",
     "eslint-plugin-import": "^2.7.0",
     "mocha": "^3.5.3",
-    "superagent": "^3.6.1"
   }
 }
