@@ -3,42 +3,91 @@ const request = require('superagent');
 class Agent {
   /**
    * The constructor.
-   * @param {*} credentials The credentials to use to query GitHub.
+   * @param {JSON object with username and token} credentials The credentials to use
+   * to query GitHub.
    */
   constructor(credentials) {
     this.credentials = credentials;
   }
 
   /**
-   * Request to query to fetch the data.
-   * @param {*} owner The owner of the repo (organization or person).
-   * @param {*} repo The repository to analyze.
-   * @param {*} searchType The searching type/term.
-   * @param {*} allPullRequestsAreAvailable The function to call to fetch the data.
+   * Process the GitHub's API pages.
+   * @param {string} targetUrl The GitHub's API URL.
+   * @param {function} dataAreAvailable The function to call when data are available.
+   * @param {function} endOfData The function to call when there are no more data.
    */
-  fetchAndProcessAllPullRequests(owner, repo, searchType, allPullRequestsAreAvailable) {
-    // The URL
-    const targetUrl = `https://api.github.com/repos/${owner}/${repo}/${searchType}?state=all`;
+  processPage(targetUrl, dataAreAvailable, endOfData) {
+    const dates = new Map();
+    const users = new Map();
 
-    // The results
-    let pullRequests = [];
-
-    // Function called until all the data are fetched
+    /**
+     * Function called until all the data are fetched.
+     * @param {string} pageUrl The GitHub's API URL.
+     * @param {JSON object with username and token} credentials  The credentials to use
+     * to query GitHub.
+     */
     function fetchAndProcessPage(pageUrl, credentials) {
       request
         .get(pageUrl)
         .auth(credentials.username, credentials.token)
         .end((err, res) => {
-          pullRequests = pullRequests.concat(res.body);
+          res.body.forEach((record) => {
+            const user = record.user.login;
+
+            if (!users.has(user)) {
+              users.set(user, 1);
+            } else {
+              users.set(user, users.get(user) + 1);
+            }
+
+            const date = new Date(record.created_at);
+            date.setHours(0, 0, 0, 0);
+            const time = date.getTime();
+
+            if (!dates.has(time)) {
+              dates.set(time, 1);
+            } else {
+              dates.set(time, dates.get(time) + 1);
+            }
+          });
+
+          dataAreAvailable(null, { users, dates });
+
           if (res.links.next) {
             fetchAndProcessPage(res.links.next, credentials);
           } else {
-            allPullRequestsAreAvailable(null, pullRequests);
+            endOfData();
           }
         });
     }
 
     fetchAndProcessPage(targetUrl, this.credentials);
+  }
+
+  /**
+   * Get all the opened issues.
+   * @param {string} owner The GitHub's owner of the repository
+   * @param {string} repo The repository.
+   * @param {function} dataAreAvailable The function to call when data are available.
+   * @param {function} endOfData The function to call when there are no more data.
+   */
+  getOpenedIssues(owner, repo, dataAreAvailable, endOfData) {
+    const targetUrl = `https://api.github.com/repos/${owner}/${repo}/issues?state=open`;
+
+    this.processPage(targetUrl, dataAreAvailable, endOfData);
+  }
+
+  /**
+   * Get all the closed issues.
+   * @param {string} owner The GitHub's owner of the repository
+   * @param {string} repo The repository.
+   * @param {function} dataAreAvailable The function to call when data are available.
+   * @param {function} endOfData The function to call when there are no more data.
+   */
+  getClosedIssues(owner, repo, dataAreAvailable, endOfData) {
+    const targetUrl = `https://api.github.com/repos/${owner}/${repo}/issues?state=closed`;
+
+    this.processPage(targetUrl, dataAreAvailable, endOfData);
   }
 }
 
