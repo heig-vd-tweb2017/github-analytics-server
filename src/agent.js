@@ -1,4 +1,5 @@
 const request = require('superagent');
+const moment = require('moment');
 
 class Agent {
   /**
@@ -40,14 +41,12 @@ class Agent {
               users.set(user, users.get(user) + 1);
             }
 
-            const date = new Date(record.created_at);
-            date.setHours(0, 0, 0, 0);
-            const time = date.getTime();
+            const date = moment(record.created_at).format('YYYY-MM-DD');
 
-            if (!dates.has(time)) {
-              dates.set(time, 1);
+            if (!dates.has(date)) {
+              dates.set(date, 1);
             } else {
-              dates.set(time, dates.get(time) + 1);
+              dates.set(date, dates.get(date) + 1);
             }
           });
 

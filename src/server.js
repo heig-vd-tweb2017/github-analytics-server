@@ -11,19 +11,17 @@ class Server {
 
     this.port = port;
     this.agent = agent;
-  }
 
-  /**
-   * Setup the server.
-   */
-  setup() {
     this.app.get('/api/opened-issues/:owner/:repo', (req, res) => {
       const { owner, repo } = req.params;
 
       res.setHeader('Content-Type', 'application/json');
 
       function sendData(err, issues) {
-        res.write(JSON.stringify(issues));
+        const usersArray = Array.from(issues.users);
+        const datesArray = Array.from(issues.dates);
+
+        res.write(JSON.stringify({ usersArray, datesArray }));
       }
 
       function endOfData() {
@@ -39,7 +37,10 @@ class Server {
       res.setHeader('Content-Type', 'application/json');
 
       function sendData(err, issues) {
-        res.write(JSON.stringify(issues));
+        const usersArray = Array.from(issues.users);
+        const datesArray = Array.from(issues.dates);
+
+        res.write(JSON.stringify({ usersArray, datesArray }));
       }
 
       function endOfData() {
@@ -59,10 +60,5 @@ class Server {
     });
   }
 }
-
-/* eslint no-extend-native: ["error", { "exceptions": ["Map"] }] */
-Map.prototype.toJSON = function () {
-  return [...this];
-};
 
 module.exports = Server;

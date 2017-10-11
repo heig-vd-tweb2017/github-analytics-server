@@ -18,6 +18,7 @@
   "homepage": "https://github.com/heig-vd-tweb2017/server#readme",
   "dependencies": {
     "express": "^4.16.1",
+    "moment": "^2.19.0",
     "superagent": "^3.6.1"
   },
   "devDependencies": {

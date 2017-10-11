@@ -3,16 +3,38 @@ const credentials = require('../src/github-credentials.json');
 
 const Agent = require('../src/agent.js');
 
-describe('agent', () => {
-  it('should fetch pull requests', (done) => {
-    const owner = 'spring-projects';
-    const repo = 'spring-kafka';
-    const searchType = 'pull';
+describe('Agent', () => {
+  it('should fetch opened issues', (done) => {
+    const owner = '2find';
+    const repo = 'stereo';
     const agent = new Agent(credentials);
-    agent.fetchAndProcessAllPullRequests(owner, repo, searchType, (err, pullRequests) => {
-      should.not.exist(err);
-      pullRequests.should.be.an('array');
+
+    function sendData(err, issues) {
+      issues.should.have.property('users');
+      issues.should.have.property('dates');
+    }
+
+    function endOfData() {
       done();
-    });
+    }
+
+    agent.getOpenedIssues(owner, repo, sendData, endOfData);
+  });
+
+  it('should fetch closed issues', (done) => {
+    const owner = '2find';
+    const repo = 'stereo';
+    const agent = new Agent(credentials);
+
+    function sendData(err, issues) {
+      issues.should.have.property('users');
+      issues.should.have.property('dates');
+    }
+
+    function endOfData() {
+      done();
+    }
+
+    agent.getClosedIssues(owner, repo, sendData, endOfData);
   });
 });
