@@ -21,7 +21,7 @@ class Server {
         const usersArray = Array.from(issues.users);
         const datesArray = Array.from(issues.dates);
 
-        res.write({ usersArray, datesArray });
+        res.write(JSON.stringify({ usersArray, datesArray }));
       }
 
       function endOfData() {
@@ -33,8 +33,6 @@ class Server {
 
     this.app.get('/api/closed-issues/:owner/:repo', (req, res) => {
       const { owner, repo } = req.params;
-
-      res.setHeader('Content-Type', 'application/json');
 
       function sendData(err, issues) {
         const usersArray = Array.from(issues.users);
