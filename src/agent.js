@@ -4,7 +4,7 @@ const moment = require('moment');
 class Agent {
   /**
    * The constructor.
-   * @param {JSON object with username and token} credentials The credentials to use
+   * @param {JSON object with username and token} credentials The credentials to use.
    * to query GitHub.
    */
   constructor(credentials) {
