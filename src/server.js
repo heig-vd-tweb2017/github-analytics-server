@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 class Server {
   /**
@@ -8,6 +9,7 @@ class Server {
    */
   constructor(port, agent) {
     this.app = express();
+    this.app.use(cors());
 
     this.port = port;
     this.agent = agent;
