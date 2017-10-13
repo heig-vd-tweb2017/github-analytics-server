@@ -17,13 +17,11 @@ class Server {
     this.app.get('/api/opened-issues/:owner/:repo', (req, res) => {
       const { owner, repo } = req.params;
 
-      res.setHeader('Content-Type', 'application/json');
-
       function sendData(err, issues) {
         const usersArray = Array.from(issues.users);
         const datesArray = Array.from(issues.dates);
 
-        res.write(JSON.stringify({ usersArray, datesArray }));
+        res.write({ usersArray, datesArray });
       }
 
       function endOfData() {
