@@ -11,5 +11,4 @@ const token = process.env.TOKEN; // || credentials.token;
 const agent = new Agent({ username, token });
 const server = new Server(port, agent);
 
-server.setup();
 server.start();
