@@ -9,7 +9,10 @@ class Server {
    */
   constructor(port, agent) {
     this.app = express();
-    this.app.use(cors());
+    this.app.use(cors({
+      credentials: true,
+      origin: true,
+    }));
 
     this.port = port;
     this.agent = agent;
@@ -17,15 +20,28 @@ class Server {
     this.app.get('/api/opened-issues/:owner/:repo', (req, res) => {
       const { owner, repo } = req.params;
 
-      function sendData(err, issues) {
-        const usersArray = Array.from(issues.users);
-        const datesArray = Array.from(issues.dates);
+      res.setHeader('Content-Type', 'application/json');
 
-        res.write(JSON.stringify({ usersArray, datesArray }));
+      res.write('[');
+
+      let prevChunk = null;
+
+      function sendData(err, data) {
+        if (prevChunk) {
+          res.write(`${JSON.stringify(prevChunk)},`);
+        }
+
+        const users = Array.from(data.users);
+        const dates = Array.from(data.dates);
+
+        prevChunk = { users, dates };
       }
 
       function endOfData() {
-        res.end();
+        if (prevChunk) {
+          res.write(JSON.stringify(prevChunk));
+        }
+        res.end(']');
       }
 
       this.agent.getOpenedIssues(owner, repo, sendData, endOfData);
@@ -34,18 +50,36 @@ class Server {
     this.app.get('/api/closed-issues/:owner/:repo', (req, res) => {
       const { owner, repo } = req.params;
 
-      function sendData(err, issues) {
-        const usersArray = Array.from(issues.users);
-        const datesArray = Array.from(issues.dates);
+      res.setHeader('Content-Type', 'application/json');
 
-        res.write(JSON.stringify({ usersArray, datesArray }));
+      res.write('[');
+
+      let prevChunk = null;
+
+      function sendData(err, data) {
+        if (prevChunk) {
+          res.write(`${JSON.stringify(prevChunk)},`);
+        }
+
+        const users = Array.from(data.users);
+        const dates = Array.from(data.dates);
+
+        prevChunk = { users, dates };
       }
 
       function endOfData() {
-        res.end();
+
+        if (prevChunk) {
+          res.write(JSON.stringify(prevChunk));
+        }
+        res.end(']');
       }
 
       this.agent.getClosedIssues(owner, repo, sendData, endOfData);
+    });
+
+    this.app.get('*', (req, res) => {
+      res.send('Error 404 - Page not found.', 404);
     });
   }
 
