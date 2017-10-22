@@ -27,14 +27,16 @@ class Server {
       let prevChunk = null;
 
       function sendData(err, data) {
-        if (prevChunk) {
-          res.write(`${JSON.stringify(prevChunk)},`);
+        if (err == null) {
+          if (prevChunk) {
+            res.write(`${JSON.stringify(prevChunk)},`);
+          }
+
+          const users = Array.from(data.users);
+          const dates = Array.from(data.dates);
+
+          prevChunk = { users, dates };
         }
-
-        const users = Array.from(data.users);
-        const dates = Array.from(data.dates);
-
-        prevChunk = { users, dates };
       }
 
       function endOfData() {
@@ -57,14 +59,16 @@ class Server {
       let prevChunk = null;
 
       function sendData(err, data) {
-        if (prevChunk) {
-          res.write(`${JSON.stringify(prevChunk)},`);
+        if (err == null) {
+          if (prevChunk) {
+            res.write(`${JSON.stringify(prevChunk)},`);
+          }
+
+          const users = Array.from(data.users);
+          const dates = Array.from(data.dates);
+
+          prevChunk = { users, dates };
         }
-
-        const users = Array.from(data.users);
-        const dates = Array.from(data.dates);
-
-        prevChunk = { users, dates };
       }
 
       function endOfData() {

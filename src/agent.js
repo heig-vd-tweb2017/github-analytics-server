@@ -63,6 +63,8 @@ class Agent {
             } else {
               endOfData();
             }
+          } else {
+            endOfData();
           }
         });
     }
@@ -133,6 +135,8 @@ class Agent {
             } else {
               endOfData();
             }
+          } else {
+            endOfData();
           }
         });
     }
