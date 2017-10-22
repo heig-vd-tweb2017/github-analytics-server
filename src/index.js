@@ -1,12 +1,21 @@
-const credentials = require('../src/github-credentials.json');
-
 const Agent = require('./agent.js');
 const Server = require('./server.js');
 
-const port = process.env.PORT || 5050;
+// LOCAL DEPLOYMENT
 
-const username = process.env.USERNAME || credentials.username;
-const token = process.env.TOKEN || credentials.token;
+const credentials = require('../src/github-credentials.json');
+
+const port = 5050;
+
+const { username, token } = credentials;
+
+// ONLINE DEPLOYMENT
+/*
+const port = process.env.PORT;
+
+const username = process.env.USERNAME;
+const token = process.env.TOKEN;
+*/
 
 const agent = new Agent({ username, token });
 const server = new Server(port, agent);

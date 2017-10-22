@@ -1,17 +1,17 @@
-# Project -Github Analytics
-This project is conducted for the course "TWEB-2017, at HEIG-VD.
+# Project - Github Analytics
+This project is conducted for the course "TWEB-2017", at HEIG-VD, Switzerland.
 
 * Teacher: Olivier Liechti.
 * Authors: Ludovic Delafontaine & Michela Zucca.
 
 ## What is this
-This project proposes a repo github analyses, especially on issues management.
+This project proposes to analyze a GitHub repository, especially on issues management.
 	
-* Time analysis of open and closed issues.
+* Time analysis of opened and closed issues.
 * Enhancement of the three most active users on closing issues.
 * Enhancement of the three most active users on opening isusses.
 	
-The trhee aspects are represented throught graphs and tables.
+The three aspects are represented throught graphics and tables.
 	
 The information about the users is deliberately hidden in parts to avoid any competition. The only objective is mutal help and encouragement.
 	
@@ -29,40 +29,57 @@ We think that issues should be opened. This proves the activity and contininous 
 For this project, we used several librairies and technologies.
  
 Client side:
-* <a href="https://startbootstrap.com/template-overviews/sb-admin-2/">SB Admin 2</a> for the Bootstrap template.
-* <a href="http://www.chartjs.org/">Chart.js</a> to display the infomations with graphics.
-* <a href="http://oboejs.com/">Oboe.js</a> to retreive data from the server and display them as soon as new data are available.
+* [SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/) for the Bootstrap template.
+* [Chart.js](http://www.chartjs.org/) to display the infomations with graphics.
+* [Oboe.js](http://oboejs.com/) to retreive data from the server and display them as soon as new data are available.
 
 Server side:
-* <a href="https://nodejs.org/">Node.js</a> for the server runtime engine.</li>
-* <a href="http://expressjs.com/">Express</a> for the WEB server.</li>
-* <a href="https://developer.github.com/v3/">GitHub API</a> to get the data from GitHub.</li>
-* <a href="https://github.com/visionmedia/superagent">SuperAgent</a> to query GitHub's API easily.</li>
-* <a href="https://mochajs.org/">Mocha</a> for the unit tests.</li>
-* <a href="http://chaijs.com/">Chai</a> as an assertion library used with Mocha</li>
-
+* [Node.js](https://nodejs.org/) for the server runtime engine.
+* [Express](http://expressjs.com/) for the WEB server.
+* [GitHub API](https://developer.github.com/v3/) to get the data from GitHub.
+* [SuperAgent](https://github.com/visionmedia/superagent) to query GitHub's API easily.
+* [Mocha](https://mochajs.org/) for the unit tests.
+* [Chai](http://chaijs.com/) as an assertion library used with Mocha
 
 On both side:
-* <a href="https://eslint.org/">ESLint</a> for quality code control.
+* [ESLint](https://eslint.org/) for quality code control.
 
-You can find all the sources for this project <a href="https://github.com/heig-vd-tweb2017">here</a> as everything is open source !
+## Live testing
+You can test the entire application [here](https://heig-vd-tweb2017.github.io/client/). Feel free to test it !
 
-# Server
-The server is in charge of retrieving the information from the github repo to be analyzed. The server side is broken down are two big parts, the agent and the server.
+## Client's aspects
+For client's aspects, we encourage you to visit the associated repository [here](https://github.com/heig-vd-tweb2017/client).
 
-* The role of the agent: retrieve data about the repo via the github API. Processing of received data. The data is processed and transmitted as and when.
+## Server's aspects
+The server is in charge of retrieving the information from the desired GitHub repository. The server side is broken down in two big parts, the agent and the server:
+
+* The role of the agent: retrieve data about the repo via the GitHub's API. Processing of received data. The data is processed and transmitted as and when.
 
 * The role of the server: intermediary between the agent and the client. It receives the client's request and uses the agent to retrieve the data to be sent back to the client.
 
 ## Deployment
 
-### Before
-It is necessary to create the file ```src/github-credentials.json``` containing the username and token.
-This file is not default included in the .gitignore for security reasons.
-For more information on github authentication, <a href="https://developer.github.com/v3/auth/">click here</a>!
+### Local deployment
+To use the application locally, you need to create the following file in `src/github-credentials.json` containing the username and token:
+
+
 ```
 {
-     "username": "name"
-     "token": "generated tocken on github"
+     "username": "GitHub's username"
+     "token": "generated token from GitHub"
 } 
 ```
+
+Then, you need to un/comment the right part of `src/index.js` to use the application locally. You might want to edit the port to use.
+
+### Online deployment (Heroku)
+To deploy the application online, on Heroku for example, you need to set the following enviroment variable:
+
+* `PORT`: The port to use for the application
+* `USERNAME`: The GitHub's username
+* `TOKEN`: The token associated with the `USERNAME`
+
+Then you need to launch the application on Heroku. You can find information to deploy an application on Heroku [here](https://devcenter.heroku.com/articles/getting-started-with-nodejs).
+
+### More informations
+You can find more information on GitHub authentication [here](https://developer.github.com/v3/auth/).
