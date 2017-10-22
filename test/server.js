@@ -25,8 +25,8 @@ describe('Server', () => {
       .end((err, res) => {
         should.not.equal(res, null);
 
-        res.body.should.have.property('usersArray');
-        res.body.should.have.property('datesArray');
+        res.body[0].should.have.property('users');
+        res.body[0].should.have.property('dates');
 
         should.equal(err, null);
         done();
@@ -39,8 +39,8 @@ describe('Server', () => {
       .end((err, res) => {
         should.not.equal(res, null);
 
-        res.body.should.have.property('usersArray');
-        res.body.should.have.property('datesArray');
+        res.body[0].should.have.property('users');
+        res.body[0].should.have.property('dates');
 
         should.equal(err, null);
         done();

@@ -68,7 +68,6 @@ class Server {
       }
 
       function endOfData() {
-
         if (prevChunk) {
           res.write(JSON.stringify(prevChunk));
         }

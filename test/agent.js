@@ -10,6 +10,7 @@ describe('Agent', () => {
     const agent = new Agent(credentials);
 
     function sendData(err, issues) {
+      should.not.equal(issues, null);
       issues.should.have.property('users');
       issues.should.have.property('dates');
     }
@@ -27,6 +28,7 @@ describe('Agent', () => {
     const agent = new Agent(credentials);
 
     function sendData(err, issues) {
+      should.not.equal(issues, null);
       issues.should.have.property('users');
       issues.should.have.property('dates');
     }

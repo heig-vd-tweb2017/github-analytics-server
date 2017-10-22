@@ -32,30 +32,32 @@ class Agent {
         .get(pageUrl)
         .auth(credentials.username, credentials.token)
         .end((err, res) => {
-          res.body.forEach((record) => {
-            const user = record.user.login;
+          if (err == null) {
+            res.body.forEach((record) => {
+              const user = record.user.login;
 
-            if (!users.has(user)) {
-              users.set(user, 1);
+              if (!users.has(user)) {
+                users.set(user, 1);
+              } else {
+                users.set(user, users.get(user) + 1);
+              }
+
+              const date = moment(record.created_at).format('YYYY-MM-DD');
+
+              if (!dates.has(date)) {
+                dates.set(date, 1);
+              } else {
+                dates.set(date, dates.get(date) + 1);
+              }
+            });
+
+            dataAreAvailable(null, { users, dates });
+
+            if (res.links.next) {
+              fetchAndProcessPage(res.links.next, credentials);
             } else {
-              users.set(user, users.get(user) + 1);
+              endOfData();
             }
-
-            const date = moment(record.created_at).format('YYYY-MM-DD');
-
-            if (!dates.has(date)) {
-              dates.set(date, 1);
-            } else {
-              dates.set(date, dates.get(date) + 1);
-            }
-          });
-
-          dataAreAvailable(null, { users, dates });
-
-          if (res.links.next) {
-            fetchAndProcessPage(res.links.next, credentials);
-          } else {
-            endOfData();
           }
         });
     }
