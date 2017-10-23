@@ -57,6 +57,21 @@ The server is in charge of retrieving the information from the desired GitHub re
 
 * The role of the server: intermediary between the agent and the client. It receives the client's request and uses the agent to retrieve the data to be sent back to the client.
 
+## Install, build and tests
+You can install all the Node.js dependencies by using the following command in the cloned directory:
+
+```
+npm install
+```
+
+You can then use the following commands to build and test the application:
+
+```
+npm run lint  # Runs the ESLint linter for code quality control
+npm run test  # Runs the Mocha framework for testing
+npm run build # Runs the 'lint' and 'test' scripts
+```
+
 ## Deployment
 
 ### Local deployment
