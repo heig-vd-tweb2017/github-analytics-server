@@ -90,9 +90,7 @@ class Server {
    * Start the server.
    */
   start() {
-    this.app.listen(this.port, () => {
-      console.log(`Our app is running on http://localhost:${this.port}`);
-    });
+    this.app.listen(this.port, () => {});
   }
 }
 
