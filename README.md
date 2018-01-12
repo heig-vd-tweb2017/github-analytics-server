@@ -45,10 +45,10 @@ On both side:
 * [ESLint](https://eslint.org/) for quality code control.
 
 ## Live testing
-You can test the entire application [here](https://heig-vd-tweb2017.github.io/client/). Feel free to test it !
+You can test the entire application [here](https://heig-vd-tweb2017.github.io/github-analytics-client/). Feel free to test it !
 
 ## Client's aspects
-For client's aspects, we encourage you to visit the associated repository [here](https://github.com/heig-vd-tweb2017/client).
+For client's aspects, we encourage you to visit the associated repository [here](https://github.com/heig-vd-tweb2017/github-analytics-client).
 
 ## Server's aspects
 The server is in charge of retrieving the information from the desired GitHub repository. The server side is broken down in two big parts, the agent and the server:
